@@ -5,9 +5,41 @@ public class App {
     static Scanner sc = new Scanner(System.in);
     static String nombre = "N/A";
     static double nota1 = -1, nota2 = -1, nota3 = -1;
+    static String estado = "N/A";
 
     public static void main(String[] args) throws Exception {
-       mostrarMenu();
+       
+         int opcion;
+        do{
+            mostrarMenu();
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar el buffer
+            switch(opcion){
+                case 1:
+                    registrarEstudiante();
+                    break;
+                case 2:
+                    mostrarEstudiante();
+                    break;
+                case 3:
+                    double promedio = calcularPromedio();
+                    if(promedio != -1){
+                        System.out.printf("El promedio de notas es: %.2f%n", promedio);
+                    }
+                    break;
+                case 4:
+                    mostrarResumen();
+                    break;
+                case 5:
+                    limpiarDatos();
+                    break;
+                case 0:
+                    System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+            }
+        }while(opcion != 0);
     }
 
     static void mostrarMenu(){
@@ -80,6 +112,41 @@ public class App {
         }
     }
 
-    
+    static double calcularPromedio(){
+        if(nombre.equals("N/A")){
+            System.out.println("No hay datos de estudiante registrados actualmente.");
+            return -1;
+        }else{
+            return (nota1 + nota2 + nota3) / 3;
+        }
+    }
+
+    static void mostrarResumen(){
+        if(nombre.equals("N/A")){
+            System.out.println("No hay datos de estudiante registrados actualmente.");
+        }else{
+            System.out.println("Resumen del estudiante:");
+            System.out.println("Nombre: " + nombre);
+            System.out.println("Notas: " + nota1 + ", " + nota2 + ", " + nota3);
+            System.out.printf("Promedio: %.2f%n", calcularPromedio());
+            setEstado();
+            System.out.println("Estado: " + estado);
+        }
+    }
+
+    static void setEstado(){
+        double promedio = calcularPromedio();
+        estado = (promedio < 60) ? "Reprobado" : "Aprobado";
+    }
+
+    static void limpiarDatos(){
+        nombre = "N/A";
+        nota1 = -1;
+        nota2 = -1;
+        nota3 = -1;
+        estado = "N/A";
+        System.out.println("Datos del estudiante actual han sido limpiados.");
+    }
+
 
 }
